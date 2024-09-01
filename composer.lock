@@ -4,8 +4,58 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8cac643d6ae3bb9353409baa4b37dc59",
-    "packages": [],
+    "content-hash": "d87112b8a9361093a8ee29c1b0c81727",
+    "packages": [
+        {
+            "name": "mdram83/mydramgames-utils",
+            "version": "v1.2.001",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mdram83/mydramgames-utils.git",
+                "reference": "7a5c3dff69ff3b6c8101f756c1060564c7f2273f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mdram83/mydramgames-utils/zipball/7a5c3dff69ff3b6c8101f756c1060564c7f2273f",
+                "reference": "7a5c3dff69ff3b6c8101f756c1060564c7f2273f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^11.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MyDramGames\\Utils\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit --colors tests"
+                ]
+            },
+            "authors": [
+                {
+                    "name": "Michal Dramowicz",
+                    "email": "michal.dramowicz@gmail.com"
+                }
+            ],
+            "description": "Utilities for MyDramGames project",
+            "support": {
+                "source": "https://github.com/mdram83/mydramgames-utils/tree/v1.2.001",
+                "issues": "https://github.com/mdram83/mydramgames-utils/issues"
+            },
+            "time": "2024-08-31T19:24:31+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "myclabs/deep-copy",
