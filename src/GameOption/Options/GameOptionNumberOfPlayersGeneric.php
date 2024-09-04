@@ -6,7 +6,7 @@ use MyDramGames\Core\GameOption\GameOptionBase;
 use MyDramGames\Core\GameOption\Values\GameOptionValueForfeitAfter;
 use MyDramGames\Core\GameOption\Values\GameOptionValueNumberOfPlayers;
 
-class GameOptionNumberOfPlayersGeneric extends GameOptionBase implements GameOptionForfeitAfter
+class GameOptionNumberOfPlayersGeneric extends GameOptionBase implements GameOptionNumberOfPlayers
 {
     protected const ?string OPTION_KEY = 'numberOfPlayers';
     protected const ?string OPTION_NAME = 'Number of players';
