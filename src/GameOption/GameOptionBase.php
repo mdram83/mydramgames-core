@@ -7,7 +7,7 @@ use MyDramGames\Core\Exceptions\GameOptionException;
 /**
  * This class can be extended to easily setup new GameOption specific instances.
  * Minimal implementation requires setting up OPTION_KEY, OPTION_NAME, OPTION_DESCRIPTION and VALUE_CLASS values.
- * Additional setup may be overwriting params and return types on constructor and configured value get/set methods.
+ * Optional setup may be overwriting params and return types on properties of class and constructor.
  */
 abstract class GameOptionBase implements GameOption
 {
@@ -61,7 +61,7 @@ abstract class GameOptionBase implements GameOption
         return $this->availableValues;
     }
 
-    public function getConfiguredValue(): GameOptionValue
+    final public function getConfiguredValue(): GameOptionValue
     {
         if (!isset($this->configuredValue)) {
             throw new GameOptionException(GameOptionException::MESSAGE_NOT_CONFIGURED);
@@ -72,7 +72,7 @@ abstract class GameOptionBase implements GameOption
     /**
      * @throws GameOptionException
      */
-    public function setConfiguredValue(GameOptionValue $value): void
+    final public function setConfiguredValue(GameOptionValue $value): void
     {
         if (isset($this->configuredValue)) {
             throw new GameOptionException(GameOptionException::MESSAGE_ALREADY_CONFIGURED);
