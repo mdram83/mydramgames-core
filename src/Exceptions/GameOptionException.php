@@ -2,9 +2,7 @@
 
 namespace MyDramGames\Core\Exceptions;
 
-use Exception;
-
-class GameOptionException extends Exception
+class GameOptionException extends MyDramGamesCoreException
 {
     public const string MESSAGE_MISSING_VALUE = 'Option value not provided';
     public const string MESSAGE_INCOMPATIBLE_VALUE = 'Incorrect option value';

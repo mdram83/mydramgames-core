@@ -2,9 +2,7 @@
 
 namespace MyDramGames\Core\Exceptions;
 
-use Exception;
-
-class GameOptionValueException extends Exception
+class GameOptionValueException extends MyDramGamesCoreException
 {
     public const string MESSAGE_MISSING_VALUE = 'Value does not exist';
 }
