@@ -3,28 +3,28 @@
 namespace Tests\GameOption\Values;
 
 use MyDramGames\Core\GameOption\GameOptionValue;
-use MyDramGames\Core\GameOption\Values\GameOptionValueNumberOfPlayers;
+use MyDramGames\Core\GameOption\Values\GameOptionValueNumberOfPlayersGeneric;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
-class GameOptionValueNumberOfPlayersTest extends TestCase
+class GameOptionValueNumberOfPlayersTestGeneric extends TestCase
 {
     public function testInstanceOfGameOptions(): void
     {
-        $reflection = new ReflectionClass(GameOptionValueNumberOfPlayers::class);
+        $reflection = new ReflectionClass(GameOptionValueNumberOfPlayersGeneric::class);
         $this->assertTrue($reflection->implementsInterface(GameOptionValue::class));
     }
 
     public function testGetValue(): void
     {
-        $players2 = GameOptionValueNumberOfPlayers::Players002;
-        $players3 = GameOptionValueNumberOfPlayers::Players003;
-        $players4 = GameOptionValueNumberOfPlayers::Players004;
-        $players5 = GameOptionValueNumberOfPlayers::Players005;
-        $players6 = GameOptionValueNumberOfPlayers::Players006;
-        $players7 = GameOptionValueNumberOfPlayers::Players007;
-        $players8 = GameOptionValueNumberOfPlayers::Players008;
-        $players9 = GameOptionValueNumberOfPlayers::Players009;
+        $players2 = GameOptionValueNumberOfPlayersGeneric::Players002;
+        $players3 = GameOptionValueNumberOfPlayersGeneric::Players003;
+        $players4 = GameOptionValueNumberOfPlayersGeneric::Players004;
+        $players5 = GameOptionValueNumberOfPlayersGeneric::Players005;
+        $players6 = GameOptionValueNumberOfPlayersGeneric::Players006;
+        $players7 = GameOptionValueNumberOfPlayersGeneric::Players007;
+        $players8 = GameOptionValueNumberOfPlayersGeneric::Players008;
+        $players9 = GameOptionValueNumberOfPlayersGeneric::Players009;
 
         $this->assertEquals($players2->value, $players2->getValue());
         $this->assertEquals($players3->value, $players3->getValue());
@@ -38,14 +38,14 @@ class GameOptionValueNumberOfPlayersTest extends TestCase
 
     public function testGetLabel(): void
     {
-        $players2 = GameOptionValueNumberOfPlayers::Players002;
-        $players3 = GameOptionValueNumberOfPlayers::Players003;
-        $players4 = GameOptionValueNumberOfPlayers::Players004;
-        $players5 = GameOptionValueNumberOfPlayers::Players005;
-        $players6 = GameOptionValueNumberOfPlayers::Players006;
-        $players7 = GameOptionValueNumberOfPlayers::Players007;
-        $players8 = GameOptionValueNumberOfPlayers::Players008;
-        $players9 = GameOptionValueNumberOfPlayers::Players009;
+        $players2 = GameOptionValueNumberOfPlayersGeneric::Players002;
+        $players3 = GameOptionValueNumberOfPlayersGeneric::Players003;
+        $players4 = GameOptionValueNumberOfPlayersGeneric::Players004;
+        $players5 = GameOptionValueNumberOfPlayersGeneric::Players005;
+        $players6 = GameOptionValueNumberOfPlayersGeneric::Players006;
+        $players7 = GameOptionValueNumberOfPlayersGeneric::Players007;
+        $players8 = GameOptionValueNumberOfPlayersGeneric::Players008;
+        $players9 = GameOptionValueNumberOfPlayersGeneric::Players009;
 
         $this->assertEquals('2 Players', $players2->getLabel());
         $this->assertEquals('3 Players', $players3->getLabel());

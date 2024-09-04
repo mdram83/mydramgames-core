@@ -7,7 +7,7 @@ use MyDramGames\Core\GameOption\GameOptionBase;
 use MyDramGames\Core\GameOption\GameOptionType;
 use MyDramGames\Core\GameOption\GameOptionValue;
 use MyDramGames\Core\GameOption\GameOptionValueCollection;
-use MyDramGames\Core\GameOption\Values\GameOptionValueAutostart;
+use MyDramGames\Core\GameOption\Values\GameOptionValueAutostartGeneric;
 
 class TestingHelper
 {
@@ -22,11 +22,11 @@ class TestingHelper
             protected const ?string OPTION_KEY = 'test-key';
             protected const ?string OPTION_NAME = 'test-name';
             protected const ?string OPTION_DESCRIPTION = 'test-description';
-            protected const ?string VALUE_CLASS = GameOptionValueAutostart::class;
+            protected const ?string VALUE_CLASS = GameOptionValueAutostartGeneric::class;
 
             public function __construct(
                 GameOptionValueCollection $available,
-                GameOptionValueAutostart $default,
+                GameOptionValueAutostartGeneric $default,
                 GameOptionType $type
             )
             {

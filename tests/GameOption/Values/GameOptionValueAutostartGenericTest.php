@@ -3,22 +3,22 @@
 namespace Tests\GameOption\Values;
 
 use MyDramGames\Core\GameOption\GameOptionValue;
-use MyDramGames\Core\GameOption\Values\GameOptionValueAutostart;
+use MyDramGames\Core\GameOption\Values\GameOptionValueAutostartGeneric;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
-class GameOptionValueAutostartTest extends TestCase
+class GameOptionValueAutostartGenericTest extends TestCase
 {
     public function testInstanceOfGameOptions(): void
     {
-        $reflection = new ReflectionClass(GameOptionValueAutostart::class);
+        $reflection = new ReflectionClass(GameOptionValueAutostartGeneric::class);
         $this->assertTrue($reflection->implementsInterface(GameOptionValue::class));
     }
 
     public function testGetValue(): void
     {
-        $enabled = GameOptionValueAutostart::Enabled;
-        $disabled = GameOptionValueAutostart::Disabled;
+        $enabled = GameOptionValueAutostartGeneric::Enabled;
+        $disabled = GameOptionValueAutostartGeneric::Disabled;
 
         $this->assertEquals($enabled->value, $enabled->getValue());
         $this->assertEquals($disabled->value, $disabled->getValue());
@@ -26,8 +26,8 @@ class GameOptionValueAutostartTest extends TestCase
 
     public function testGetLabel(): void
     {
-        $enabled = GameOptionValueAutostart::Enabled;
-        $disabled = GameOptionValueAutostart::Disabled;
+        $enabled = GameOptionValueAutostartGeneric::Enabled;
+        $disabled = GameOptionValueAutostartGeneric::Disabled;
 
         $this->assertEquals('Enabled', $enabled->getLabel());
         $this->assertEquals('Disabled', $disabled->getLabel());

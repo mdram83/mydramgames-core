@@ -8,7 +8,7 @@ use MyDramGames\Core\GameOption\GameOptionType;
 use MyDramGames\Core\GameOption\GameOptionValue;
 use MyDramGames\Core\GameOption\GameOptionValueCollection;
 use MyDramGames\Core\GameOption\GameOptionValueCollectionPowered;
-use MyDramGames\Core\GameOption\Values\GameOptionValueAutostart;
+use MyDramGames\Core\GameOption\Values\GameOptionValueAutostartGeneric;
 use PHPUnit\Framework\TestCase;
 use Tests\TestingHelper;
 
@@ -22,8 +22,8 @@ class GameOptionBaseTest extends TestCase
 
     public function setUp(): void
     {
-        $this->default = GameOptionValueAutostart::Enabled;
-        $this->configured = GameOptionValueAutostart::Disabled;
+        $this->default = GameOptionValueAutostartGeneric::Enabled;
+        $this->configured = GameOptionValueAutostartGeneric::Disabled;
         $this->available = new GameOptionValueCollectionPowered(null, [$this->default, $this->configured]);
         $this->type = $this->createMock(GameOptionType::class);
 

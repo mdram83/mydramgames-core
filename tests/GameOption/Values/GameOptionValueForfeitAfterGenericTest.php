@@ -3,26 +3,26 @@
 namespace Tests\GameOption\Values;
 
 use MyDramGames\Core\GameOption\GameOptionValue;
-use MyDramGames\Core\GameOption\Values\GameOptionValueForfeitAfter;
+use MyDramGames\Core\GameOption\Values\GameOptionValueForfeitAfterGeneric;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
-class GameOptionValueForfeitAfterTest extends TestCase
+class GameOptionValueForfeitAfterGenericTest extends TestCase
 {
     public function testInstanceOfGameOptions(): void
     {
-        $reflection = new ReflectionClass(GameOptionValueForfeitAfter::class);
+        $reflection = new ReflectionClass(GameOptionValueForfeitAfterGeneric::class);
         $this->assertTrue($reflection->implementsInterface(GameOptionValue::class));
     }
 
     public function testGetValue(): void
     {
-        $disabled = GameOptionValueForfeitAfter::Disabled;
-        $minute1 = GameOptionValueForfeitAfter::Minute;
-        $minute5 = GameOptionValueForfeitAfter::Minutes5;
-        $minute10 = GameOptionValueForfeitAfter::Minutes10;
-        $hour1 = GameOptionValueForfeitAfter::Hour;
-        $day1 = GameOptionValueForfeitAfter::Day;
+        $disabled = GameOptionValueForfeitAfterGeneric::Disabled;
+        $minute1 = GameOptionValueForfeitAfterGeneric::Minute;
+        $minute5 = GameOptionValueForfeitAfterGeneric::Minutes5;
+        $minute10 = GameOptionValueForfeitAfterGeneric::Minutes10;
+        $hour1 = GameOptionValueForfeitAfterGeneric::Hour;
+        $day1 = GameOptionValueForfeitAfterGeneric::Day;
 
         $this->assertEquals($disabled->value, $disabled->getValue());
         $this->assertEquals($minute1->value, $minute1->getValue());
@@ -34,12 +34,12 @@ class GameOptionValueForfeitAfterTest extends TestCase
 
     public function testGetLabel(): void
     {
-        $disabled = GameOptionValueForfeitAfter::Disabled;
-        $minute1 = GameOptionValueForfeitAfter::Minute;
-        $minute5 = GameOptionValueForfeitAfter::Minutes5;
-        $minute10 = GameOptionValueForfeitAfter::Minutes10;
-        $hour1 = GameOptionValueForfeitAfter::Hour;
-        $day1 = GameOptionValueForfeitAfter::Day;
+        $disabled = GameOptionValueForfeitAfterGeneric::Disabled;
+        $minute1 = GameOptionValueForfeitAfterGeneric::Minute;
+        $minute5 = GameOptionValueForfeitAfterGeneric::Minutes5;
+        $minute10 = GameOptionValueForfeitAfterGeneric::Minutes10;
+        $hour1 = GameOptionValueForfeitAfterGeneric::Hour;
+        $day1 = GameOptionValueForfeitAfterGeneric::Day;
 
         $this->assertEquals('Disabled', $disabled->getLabel());
         $this->assertEquals('1 Minute', $minute1->getLabel());
