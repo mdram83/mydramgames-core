@@ -48,4 +48,12 @@ class GameOptionValueForfeitAfterGenericTest extends TestCase
         $this->assertEquals('1 Hour', $hour1->getLabel());
         $this->assertEquals('1 Day', $day1->getLabel());
     }
+
+    public function testFromValue(): void
+    {
+        $this->assertInstanceOf(
+            GameOptionValueForfeitAfterGeneric::class,
+            GameOptionValueForfeitAfterGeneric::fromValue(GameOptionValueForfeitAfterGeneric::Disabled->value)
+        );
+    }
 }

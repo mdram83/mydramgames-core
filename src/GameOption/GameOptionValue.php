@@ -15,4 +15,11 @@ interface GameOptionValue
      * @return string
      */
     public function getLabel(): string;
+
+    /**
+     * Allow to create GameOptionValue object from specific value
+     * @param int|string|null $value
+     * @return static
+     */
+    public static function fromValue(int|string|null $value): static;
 }

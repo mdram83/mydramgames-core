@@ -7,7 +7,7 @@ use MyDramGames\Core\GameOption\Values\GameOptionValueNumberOfPlayersGeneric;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
-class GameOptionValueNumberOfPlayersTestGeneric extends TestCase
+class GameOptionValueNumberOfPlayersGenericTest extends TestCase
 {
     public function testInstanceOfGameOptions(): void
     {
@@ -55,5 +55,13 @@ class GameOptionValueNumberOfPlayersTestGeneric extends TestCase
         $this->assertEquals('7 Players', $players7->getLabel());
         $this->assertEquals('8 Players', $players8->getLabel());
         $this->assertEquals('9 Players', $players9->getLabel());
+    }
+
+    public function testFromValue(): void
+    {
+        $this->assertInstanceOf(
+            GameOptionValueNumberOfPlayersGeneric::class,
+            GameOptionValueNumberOfPlayersGeneric::fromValue(GameOptionValueNumberOfPlayersGeneric::Players002->value)
+        );
     }
 }

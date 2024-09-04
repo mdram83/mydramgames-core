@@ -2,11 +2,13 @@
 
 namespace MyDramGames\Core\GameOption\Values;
 
+use MyDramGames\Utils\Php\Enum\FromValueBackedEnumTrait;
 use MyDramGames\Utils\Php\Enum\GetValueBackedEnumTrait;
 
 enum GameOptionValueNumberOfPlayersGeneric: int implements GameOptionValueNumberOfPlayers
 {
     use GetValueBackedEnumTrait;
+    use FromValueBackedEnumTrait;
 
     case Players002 = 2;
     case Players003 = 3;

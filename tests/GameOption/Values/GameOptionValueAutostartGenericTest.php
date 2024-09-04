@@ -2,8 +2,10 @@
 
 namespace Tests\GameOption\Values;
 
+use MyDramGames\Core\Exceptions\GameOptionValueException;
 use MyDramGames\Core\GameOption\GameOptionValue;
 use MyDramGames\Core\GameOption\Values\GameOptionValueAutostartGeneric;
+use MyDramGames\Utils\Exceptions\BackedEnumException;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
@@ -31,5 +33,17 @@ class GameOptionValueAutostartGenericTest extends TestCase
 
         $this->assertEquals('Enabled', $enabled->getLabel());
         $this->assertEquals('Disabled', $disabled->getLabel());
+    }
+
+    public function testFromValue(): void
+    {
+        $this->assertInstanceOf(
+            GameOptionValueAutostartGeneric::class,
+            GameOptionValueAutostartGeneric::fromValue(GameOptionValueAutostartGeneric::Enabled->value)
+        );
+        $this->assertInstanceOf(
+            GameOptionValueAutostartGeneric::class,
+            GameOptionValueAutostartGeneric::fromValue(GameOptionValueAutostartGeneric::Disabled->value)
+        );
     }
 }

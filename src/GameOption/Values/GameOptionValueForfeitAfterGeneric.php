@@ -2,11 +2,13 @@
 
 namespace MyDramGames\Core\GameOption\Values;
 
+use MyDramGames\Utils\Php\Enum\FromValueBackedEnumTrait;
 use MyDramGames\Utils\Php\Enum\GetValueBackedEnumTrait;
 
 enum GameOptionValueForfeitAfterGeneric: int implements GameOptionValueForfeitAfter
 {
     use GetValueBackedEnumTrait;
+    use FromValueBackedEnumTrait;
 
     case Disabled  = 0;
     case Minute    = 60;
