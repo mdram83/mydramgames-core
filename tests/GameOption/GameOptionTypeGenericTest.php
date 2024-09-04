@@ -26,4 +26,12 @@ class GameOptionTypeGenericTest extends TestCase
         $types = array_map(fn($type) => $type->getValue(), GameOptionTypeGeneric::cases());
         $this->assertEquals(['radio', 'select', 'checkbox'], $types);
     }
+
+    public function testFromValue(): void
+    {
+        $this->assertInstanceOf(
+            GameOptionTypeGeneric::class,
+            GameOptionTypeGeneric::fromValue(GameOptionTypeGeneric::Checkbox->value)
+        );
+    }
 }
