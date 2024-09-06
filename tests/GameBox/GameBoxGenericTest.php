@@ -3,6 +3,7 @@
 namespace Tests\GameBox;
 
 use MyDramGames\Core\Exceptions\GameBoxException;
+use MyDramGames\Core\Exceptions\GameSetupException;
 use MyDramGames\Core\GameBox\GameBox;
 use MyDramGames\Core\GameBox\GameBoxGeneric;
 use MyDramGames\Core\GameOption\GameOptionCollectionPowered;
@@ -55,9 +56,11 @@ class GameBoxGenericTest extends TestCase
         );
     }
 
-    protected function getGameSetup(array $numberOfPlayersValues = [2]): GameSetup
+    protected function getGameSetup(array $numberOfPlayersValues = [2], bool $isSetUp = true): GameSetup
     {
         $setup = $this->createMock(GameSetup::class);
+        $setup->method('isSetUp')->willReturn($isSetUp);
+
         $option = $this->createMock(GameOptionNumberOfPlayers::class);
         $values = new GameOptionValueCollectionPowered();
         foreach ($numberOfPlayersValues as $value) {
@@ -109,6 +112,17 @@ class GameBoxGenericTest extends TestCase
         $this->assertEquals($this->description, $this->box->getDescription());
     }
 
+    public function testGetNumberOfPlayersDescriptThrowExceptionIfNotSetUp(): void
+    {
+        $this->expectException(GameBoxException::class);
+        $this->expectExceptionMessage(GameBoxException::MESSAGE_INCORRECT_CONFIGURATION);
+
+        $this->gameSetup = $this->createMock(GameSetup::class);
+        $this->gameSetup->method('getNumberOfPlayers')->willThrowException(new GameSetupException(GameSetupException::MESSAGE_OPTION_NOT_SET));
+        $box = $this->getGameBox();
+        $box->getNumberOfPlayersDescription();
+    }
+
     public function testGetNumberOfPlayersDescriptionWithOneNumber(): void
     {
         $this->assertEquals('2', $this->box->getNumberOfPlayersDescription());
@@ -148,6 +162,16 @@ class GameBoxGenericTest extends TestCase
     public function testIsPremium(): void
     {
         $this->assertEquals($this->isPremium, $this->box->isPremium());
+    }
+
+    public function testGetGameSetupThrowExceptionWhenNotSetUp(): void
+    {
+        $this->expectException(GameBoxException::class);
+        $this->expectExceptionMessage(GameBoxException::MESSAGE_INCORRECT_CONFIGURATION);
+
+        $this->gameSetup = $this->getGameSetup(isSetUp: false);
+        $box = $this->getGameBox();
+        $box->getGameSetup();
     }
 
     public function testGetGameSetup(): void

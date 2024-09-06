@@ -3,6 +3,7 @@
 namespace MyDramGames\Core\GameBox;
 
 use MyDramGames\Core\Exceptions\GameBoxException;
+use MyDramGames\Core\Exceptions\GameSetupException;
 use MyDramGames\Core\GameSetup\GameSetup;
 
 class GameBoxGeneric implements GameBox
@@ -52,7 +53,12 @@ class GameBoxGeneric implements GameBox
      */
     public function getNumberOfPlayersDescription(): string
     {
-        $option = $this->getGameSetup()->getNumberOfPlayers();
+        try {
+            $option = $this->getGameSetup()->getNumberOfPlayers();
+        } catch (GameSetupException) {
+            throw new GameBoxException(GameBoxException::MESSAGE_INCORRECT_CONFIGURATION);
+        }
+
         $values = array_map(fn($value) => $value->getValue() , $option->getAvailableValues()->toArray());
 
         if (!$this->hasConsecutiveNumberOfPlayers($values)) {
@@ -87,6 +93,10 @@ class GameBoxGeneric implements GameBox
      */
     public function getGameSetup(): GameSetup
     {
+        if (!$this->gameSetup->isSetUp()) {
+            throw new GameBoxException(GameBoxException::MESSAGE_INCORRECT_CONFIGURATION);
+        }
+
         return $this->gameSetup;
     }
 

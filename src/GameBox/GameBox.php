@@ -30,7 +30,7 @@ interface GameBox
     /**
      * Descriptive number of players, could be 2-4, '2, 4, 6', depending on GameSetup
      * @return string
-     * @throws GameBoxException in case GameSetup is not set up (default and available values)
+     * @throws GameBoxException in case this GameOption is set up (available values)
      */
     public function getNumberOfPlayersDescription(): string;
 
@@ -49,7 +49,7 @@ interface GameBox
     /**
      * Related GameSetup object
      * @return GameSetup
-     * @throws GameBoxException in case GameSetup is not set up (default and available values)
+     * @throws GameBoxException in case GameOption is not set up
      */
     public function getGameSetup(): GameSetup;
 

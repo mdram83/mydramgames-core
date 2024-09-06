@@ -33,7 +33,7 @@ interface GameSetup
     public function isConfigured(): bool;
 
     /**
-     * Informs if options are defined
+     * Should inform if options are added including their default and available values
      * @return bool
      */
     public function isSetUp(): bool;
