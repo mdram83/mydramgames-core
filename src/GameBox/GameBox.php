@@ -2,6 +2,7 @@
 
 namespace MyDramGames\Core\GameBox;
 
+use MyDramGames\Core\Exceptions\GameBoxException;
 use MyDramGames\Core\GameSetup\GameSetup;
 
 interface GameBox
@@ -9,12 +10,14 @@ interface GameBox
     /**
      * Unique slug for the game
      * @return string
+     * @throws GameBoxException in case value is missing
      */
     public function getSlug(): string;
 
     /**
      * User-friendly name of the game
      * @return string
+     * @throws GameBoxException in case value is missing
      */
     public function getName(): string;
 
@@ -27,6 +30,7 @@ interface GameBox
     /**
      * Descriptive number of players, could be 2-4, '2, 4, 6', depending on GameSetup
      * @return string
+     * @throws GameBoxException in case GameSetup is not set up (default and available values)
      */
     public function getNumberOfPlayersDescription(): string;
 
@@ -45,6 +49,7 @@ interface GameBox
     /**
      * Related GameSetup object
      * @return GameSetup
+     * @throws GameBoxException in case GameSetup is not set up (default and available values)
      */
     public function getGameSetup(): GameSetup;
 

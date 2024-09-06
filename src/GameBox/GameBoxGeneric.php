@@ -2,6 +2,7 @@
 
 namespace MyDramGames\Core\GameBox;
 
+use MyDramGames\Core\Exceptions\GameBoxException;
 use MyDramGames\Core\GameSetup\GameSetup;
 
 class GameBoxGeneric implements GameBox
@@ -25,6 +26,7 @@ class GameBoxGeneric implements GameBox
      */
     public function getSlug(): string
     {
+        $this->validateNotEmpty($this->slug);
         return $this->slug;
     }
 
@@ -33,6 +35,7 @@ class GameBoxGeneric implements GameBox
      */
     public function getName(): string
     {
+        $this->validateNotEmpty($this->name);
         return $this->name;
     }
 
@@ -130,6 +133,16 @@ class GameBoxGeneric implements GameBox
             ], $this->getGameSetup()->getAllOptions()->toArray()),
 
         ];
+    }
+
+    /**
+     * @throws GameBoxException
+     */
+    protected function validateNotEmpty(string $value): void
+    {
+        if ($value === '') {
+            throw new GameBoxException(GameBoxException::MESSAGE_INCORRECT_CONFIGURATION);
+        }
     }
 
     protected function hasConsecutiveNumberOfPlayers(array $numberOfPlayers): bool

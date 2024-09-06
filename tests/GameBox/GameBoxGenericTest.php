@@ -74,9 +74,29 @@ class GameBoxGenericTest extends TestCase
         $this->assertInstanceOf(GameBox::class, $this->box);
     }
 
+    public function testGetSlugThrowExceptionWhenSlugIsEmpty(): void
+    {
+        $this->expectException(GameBoxException::class);
+        $this->expectExceptionMessage(GameBoxException::MESSAGE_INCORRECT_CONFIGURATION);
+
+        $this->slug = '';
+        $box = $this->getGameBox();
+        $box->getSlug();
+    }
+
     public function testGetSlug(): void
     {
         $this->assertEquals($this->slug, $this->box->getSlug());
+    }
+
+    public function testGetNameThrowExceptionWhenNameIsEmpty(): void
+    {
+        $this->expectException(GameBoxException::class);
+        $this->expectExceptionMessage(GameBoxException::MESSAGE_INCORRECT_CONFIGURATION);
+
+        $this->name = '';
+        $box = $this->getGameBox();
+        $box->getName();
     }
 
     public function testGetName(): void
