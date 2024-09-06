@@ -34,7 +34,8 @@ abstract class GameSetupBase implements GameSetup
     /**
      * This is only method that must be overwritten in specific per game implementations extending GameSetupBase.
      * In this method, you should add each GameOption with their available values, default value and type.
-     * Consider that 'numberOfPlayers', 'autostart' and 'forfeitAfter' are mandatory. Each must be added to `options`.
+     * Consider that 'numberOfPlayers', 'autostart' and 'forfeitAfter' are mandatory in MyDramGames (not in others)
+     * Avoiding adding any option may cause incorrect behavior of other code elements
      * @throws GameOptionException
      * @throws CollectionException
      */
@@ -109,6 +110,11 @@ abstract class GameSetupBase implements GameSetup
     final public function isConfigured(): bool
     {
         return $this->options->count() === $this->options->filter(fn($option) => $option->isConfigured())->count();
+    }
+
+    final public function isSetUp(): bool
+    {
+        return true;
     }
 
     /**

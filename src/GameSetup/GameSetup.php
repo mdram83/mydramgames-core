@@ -33,6 +33,12 @@ interface GameSetup
     public function isConfigured(): bool;
 
     /**
+     * Informs if options are defined
+     * @return bool
+     */
+    public function isSetUp(): bool;
+
+    /**
      * Shorthand function for method call getOption('numberOfPlayers')
      * @return GameOption
      */

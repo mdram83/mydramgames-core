@@ -73,8 +73,6 @@ class GameSetupBaseTest extends TestCase
         $this->assertEquals(3, $this->setup->getAllOptions()->count());
     }
 
-
-
     public function testConfigureOptionsThrowExceptionWhenOptionNotInAvailable(): void
     {
         $this->expectException(GameSetupException::class);
@@ -125,6 +123,11 @@ class GameSetupBaseTest extends TestCase
     {
         $this->setup->configureOptions($this->configurations);
         $this->assertTrue($this->setup->isConfigured());
+    }
+
+    public function testIsSetUp(): void
+    {
+        $this->assertTrue($this->setup->isSetUp());
     }
 
     public function testGetNumberOfPlayers(): void
