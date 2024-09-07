@@ -2,6 +2,7 @@
 
 namespace MyDramGames\Core\GameSetup;
 
+use MyDramGames\Core\Exceptions\GameSetupException;
 use MyDramGames\Core\GameOption\GameOption;
 use MyDramGames\Core\GameOption\GameOptionCollection;
 use MyDramGames\Core\GameOption\GameOptionConfigurationCollection;
@@ -23,6 +24,7 @@ interface GameSetup
      * Configure Game Options to specific value provided within collection of GameOptionConfiguration
      * @param GameOptionConfigurationCollection $configurations
      * @return void
+     * @throws GameSetupException in case of configuration issues
      */
     public function configureOptions(GameOptionConfigurationCollection $configurations): void;
 

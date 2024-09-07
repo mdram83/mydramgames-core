@@ -5,6 +5,9 @@ namespace Tests;
 use MyDramGames\Core\GameOption\GameOption;
 use MyDramGames\Core\GameOption\GameOptionBase;
 use MyDramGames\Core\GameOption\GameOptionCollection;
+use MyDramGames\Core\GameOption\GameOptionConfigurationCollection;
+use MyDramGames\Core\GameOption\GameOptionConfigurationCollectionPowered;
+use MyDramGames\Core\GameOption\GameOptionConfigurationGeneric;
 use MyDramGames\Core\GameOption\GameOptionType;
 use MyDramGames\Core\GameOption\GameOptionTypeGeneric;
 use MyDramGames\Core\GameOption\GameOptionValue;
@@ -84,5 +87,23 @@ class TestingHelper
                     ];
             }
         };
+    }
+
+    public static function getGameOptionConfigurations(int $numberOfPlayers = 2): GameOptionConfigurationCollection
+    {
+        return new GameOptionConfigurationCollectionPowered(null, [
+            new GameOptionConfigurationGeneric(
+                'numberOfPlayers',
+                GameOptionValueNumberOfPlayersGeneric::fromValue($numberOfPlayers)
+            ),
+            new GameOptionConfigurationGeneric(
+                'autostart',
+                GameOptionValueAutostartGeneric::Enabled
+            ),
+            new GameOptionConfigurationGeneric(
+                'forfeitAfter',
+                GameOptionValueForfeitAfterGeneric::Disabled
+            )
+        ]);
     }
 }
