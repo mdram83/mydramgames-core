@@ -41,7 +41,7 @@ abstract class GamePlayStorableBase implements GamePlay
     {
         $this->validateStorage();
         $this->configureGamePlayServices();
-        $this->setUpStorage();
+        $this->setUpInStorage();
         $this->runConfigurationAfterHooks();
     }
 

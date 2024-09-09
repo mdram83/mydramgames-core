@@ -67,7 +67,7 @@ trait GamePlayStorableTrait
      * @return void
      * @throws GamePlayException
      */
-    final protected function setUpStorage(): void
+    final protected function setUpInStorage(): void
     {
         try {
             if (!$this->storage->getSetup()) {

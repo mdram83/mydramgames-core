@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use MyDramGames\Core\GameMove\GameMove;
 use MyDramGames\Core\GameOption\GameOption;
 use MyDramGames\Core\GameOption\GameOptionBase;
 use MyDramGames\Core\GameOption\GameOptionCollection;
@@ -18,8 +19,12 @@ use MyDramGames\Core\GameOption\Options\GameOptionNumberOfPlayersGeneric;
 use MyDramGames\Core\GameOption\Values\GameOptionValueAutostartGeneric;
 use MyDramGames\Core\GameOption\Values\GameOptionValueForfeitAfterGeneric;
 use MyDramGames\Core\GameOption\Values\GameOptionValueNumberOfPlayersGeneric;
+use MyDramGames\Core\GamePlay\GamePlayStorableBase;
+use MyDramGames\Core\GamePlay\Services\GamePlayServicesProvider;
+use MyDramGames\Core\GamePlay\Storage\GamePlayStorage;
 use MyDramGames\Core\GameSetup\GameSetup;
 use MyDramGames\Core\GameSetup\GameSetupBase;
+use MyDramGames\Utils\Player\Player;
 
 class TestingHelper
 {
@@ -49,7 +54,7 @@ class TestingHelper
 
     public static function getGameSetupBaseClass(
         GameOptionCollection $optionsHandler,
-        GameOptionValueCollection $valuesHandler
+        GameOptionValueCollection $valuesHandler,
     ): GameSetupBase
     {
         return new class($optionsHandler, $valuesHandler) extends GameSetupBase implements GameSetup
@@ -89,7 +94,9 @@ class TestingHelper
         };
     }
 
-    public static function getGameOptionConfigurations(int $numberOfPlayers = 2): GameOptionConfigurationCollection
+    public static function getGameOptionConfigurations(
+        int $numberOfPlayers = 2,
+    ): GameOptionConfigurationCollection
     {
         return new GameOptionConfigurationCollectionPowered(null, [
             new GameOptionConfigurationGeneric(
@@ -105,5 +112,67 @@ class TestingHelper
                 GameOptionValueForfeitAfterGeneric::Disabled
             )
         ]);
+    }
+
+    public static function getGamePlayStorableBase(
+        GamePlayStorage $storage,
+        GamePlayServicesProvider $gamePlayServicesProvider,
+    ): GamePlayStorableBase
+    {
+        return new class($storage, $gamePlayServicesProvider) extends GamePlayStorableBase
+        {
+            protected array $words;
+            protected const ?string GAME_MOVE_CLASS = GameMove::class;
+
+            public function handleMove(GameMove $move): void
+            {
+                $this->words[] = $move->getDetails()['word'];
+                $this->saveData();
+            }
+
+            public function handleForfeit(Player $player): void
+            {
+                $this->storage->setFinished();
+            }
+
+            public function getSituation(Player $player): array
+            {
+                return [
+                    'words' => $this->words,
+                    'activePlayer' => $this->getActivePlayer()->getName(),
+                ];
+            }
+
+            protected function initialize(): void
+            {
+                $this->words = [];
+                $this->activePlayer = $this->getGameInvite()->getPlayers()->getOne(2);
+            }
+
+            protected function saveData(): void
+            {
+                $this->storage->setGameData([
+                    'words' => $this->words,
+                    'activePlayer' => $this->activePlayer,
+                ]);
+            }
+
+            protected function loadData(): void
+            {
+                $data = $this->storage->getGameData();
+                $this->words = $data['words'];
+                $this->activePlayer = $data['activePlayer'];
+            }
+
+            protected function configureGamePlayServices(): void
+            {
+
+            }
+
+            protected function runConfigurationAfterHooks(): void
+            {
+
+            }
+        };
     }
 }
