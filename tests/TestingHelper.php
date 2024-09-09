@@ -137,9 +137,11 @@ class TestingHelper
 
             public function getSituation(Player $player): array
             {
+                $activePlayerName = $this->getActivePlayer()->getName();
                 return [
                     'words' => $this->words,
-                    'activePlayer' => $this->getActivePlayer()->getName(),
+                    'activePlayer' => $activePlayerName,
+                    'yourId' => $this->getPlayerByName($player->getName())->getId(),
                 ];
             }
 

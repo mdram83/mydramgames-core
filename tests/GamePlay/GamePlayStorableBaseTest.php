@@ -143,5 +143,9 @@ class GamePlayStorableBaseTest extends TestCase
         $this->assertTrue($this->play->isFinished());
     }
 
-    // TODO continue with next Traits testing
+    public function testGetSituationUsingGetPlayerByNameProtectedTraitMethod(): void
+    {
+        $situation = $this->play->getSituation($this->playerOne);
+        $this->assertEquals($this->playerOne->getId(), $situation['yourId']);
+    }
 }
