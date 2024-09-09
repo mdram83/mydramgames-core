@@ -19,6 +19,7 @@ use MyDramGames\Utils\Php\Collection\CollectionEnginePhpArray;
 use MyDramGames\Utils\Player\Player;
 use MyDramGames\Utils\Player\PlayerCollection;
 use MyDramGames\Utils\Player\PlayerCollectionPowered;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Tests\TestingHelper;
 
@@ -147,5 +148,61 @@ class GamePlayStorableBaseTest extends TestCase
     {
         $situation = $this->play->getSituation($this->playerOne);
         $this->assertEquals($this->playerOne->getId(), $situation['yourId']);
+    }
+
+    public function testTestInterfacing(): void
+    {
+        $this->assertInstanceOf(MockObject::class, $this->move);
+    }
+
+    public function testHandleMoveThrowExceptionForNotActivePlayer(): void
+    {
+        $this->expectException(GamePlayException::class);
+        $this->expectExceptionMessage(GamePlayException::MESSAGE_NOT_CURRENT_PLAYER);
+
+        $this->play->handleMove($this->getMoveFor($this->playerOne));
+    }
+
+    public function testHandleMoveThrowExceptionOnFinishedGame(): void
+    {
+        $this->expectException(GamePlayException::class);
+        $this->expectExceptionMessage(GamePlayException::MESSAGE_MOVE_ON_FINISHED_GAME);
+
+        $this->play->handleForfeit($this->playerOne);
+        $this->play->handleMove($this->move);
+    }
+
+    public function testHandleMoveThrowExceptionNotPlayer(): void
+    {
+        $this->expectException(GamePlayException::class);
+        $this->expectExceptionMessage(GamePlayException::MESSAGE_NOT_PLAYER);
+
+        $this->play->handleMove($this->getMoveFor($this->getPlayerMock(3, 'Player 3')));
+    }
+
+    public function testHandleMoveThrowExceptionIncorrectGameMoveClass(): void
+    {
+        $this->expectException(GamePlayException::class);
+        $this->expectExceptionMessage(GamePlayException::MESSAGE_INCOMPATIBLE_MOVE);
+
+        $move = new class($this->playerTwo) implements GameMove
+        {
+            public function __construct(protected Player $player)
+            {
+
+            }
+
+            public function getPlayer(): Player
+            {
+                return $this->player;
+            }
+
+            public function getDetails(): array
+            {
+                return ['word' => 'Word-Y'];
+            }
+        };
+
+        $this->play->handleMove($move);
     }
 }

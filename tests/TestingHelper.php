@@ -25,6 +25,7 @@ use MyDramGames\Core\GamePlay\Storage\GamePlayStorage;
 use MyDramGames\Core\GameSetup\GameSetup;
 use MyDramGames\Core\GameSetup\GameSetupBase;
 use MyDramGames\Utils\Player\Player;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class TestingHelper
 {
@@ -122,16 +123,21 @@ class TestingHelper
         return new class($storage, $gamePlayServicesProvider) extends GamePlayStorableBase
         {
             protected array $words;
-            protected const ?string GAME_MOVE_CLASS = GameMove::class;
+            protected const ?string GAME_MOVE_CLASS = MockObject::class;
 
             public function handleMove(GameMove $move): void
             {
+                $this->validateGamePlayer($move->getPlayer());
+                $this->validateNotFinished();
+                $this->validateMove($move);
+
                 $this->words[] = $move->getDetails()['word'];
                 $this->saveData();
             }
 
             public function handleForfeit(Player $player): void
             {
+                $this->validateNotFinished();
                 $this->storage->setFinished();
             }
 
