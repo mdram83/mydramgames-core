@@ -36,7 +36,7 @@ interface GamePlay
     public function getGameInvite(): GameInvite;
 
     /**
-     * Key method that has to be handled specifically for the game
+     * Critical method that should be defined to handle each specific to game player action/move.
      * @param GameMove $move
      * @return void
      */
@@ -50,7 +50,7 @@ interface GamePlay
     public function handleForfeit(Player $player): void;
 
     /**
-     * Key method that should be used for sharing current game situation with an individual Player
+     * Critical method that should be defined to communicate current game situation to specific Player.
      * @param Player $player
      * @return array
      */
