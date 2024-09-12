@@ -3,6 +3,7 @@
 namespace Tests\GamePlay\Services;
 
 use MyDramGames\Core\GamePlay\Services\GamePlayServicesProviderGeneric;
+use MyDramGames\Core\GameRecord\GameRecordFactory;
 use MyDramGames\Utils\Php\Collection\CollectionEngine;
 use MyDramGames\Utils\Php\Collection\CollectionEnginePhpArray;
 use MyDramGames\Utils\Player\Player;
@@ -15,15 +16,18 @@ class GamePlayServicesProviderGenericTest extends TestCase
     protected GamePlayServicesProviderGeneric $provider;
     protected CollectionEngine $collectionEngine;
     protected PlayerCollection $playerCollection;
+    protected GameRecordFactory $gameRecordFactory;
 
     public function setUp(): void
     {
         $this->collectionEngine = new CollectionEnginePhpArray();
         $this->playerCollection = new PlayerCollectionPowered();
+        $this->gameRecordFactory = $this->createMock(GameRecordFactory::class);
 
         $this->provider = new GamePlayServicesProviderGeneric(
             $this->collectionEngine,
             $this->playerCollection,
+            $this->gameRecordFactory,
         );
     }
 
