@@ -4,21 +4,21 @@ namespace Tests\GameResult;
 
 use MyDramGames\Core\GameInvite\GameInvite;
 use MyDramGames\Core\GameRecord\GameRecordCollection;
-use MyDramGames\Core\GameRecord\GameRecordCollectionPowered;
 use MyDramGames\Core\GameRecord\GameRecordFactory;
 use MyDramGames\Core\GameResult\GameResult;
-use MyDramGames\Core\GameResult\GameResultProviderWithFactoryBase;
+use MyDramGames\Core\GameResult\GameResultProviderBase;
 use PHPUnit\Framework\TestCase;
 
-class GameResultProviderWithFactoryBaseTest extends TestCase
+class GameResultProviderBaseTest extends TestCase
 {
-    protected GameResultProviderWithFactoryBase $provider;
+    protected GameResultProviderBase $provider;
 
     public function setUp(): void
     {
         $this->provider = new class(
-            $this->createMock(GameRecordFactory::class)
-        ) extends GameResultProviderWithFactoryBase
+            $this->createMock(GameRecordFactory::class),
+            $this->createMock(GameRecordCollection::class),
+        ) extends GameResultProviderBase
         {
             public function getResult(mixed $data): ?GameResult
             {
@@ -27,13 +27,13 @@ class GameResultProviderWithFactoryBaseTest extends TestCase
 
             public function createGameRecords(GameInvite $gameInvite): GameRecordCollection
             {
-                return new GameRecordCollectionPowered();
+                return $this->gameRecordCollection;
             }
         };
     }
 
     public function testConstructor(): void
     {
-        $this->assertInstanceOf(GameResultProviderWithFactoryBase::class, $this->provider);
+        $this->assertInstanceOf(GameResultProviderBase::class, $this->provider);
     }
 }
