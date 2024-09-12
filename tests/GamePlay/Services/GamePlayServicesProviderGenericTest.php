@@ -3,6 +3,9 @@
 namespace Tests\GamePlay\Services;
 
 use MyDramGames\Core\GamePlay\Services\GamePlayServicesProviderGeneric;
+use MyDramGames\Core\GameRecord\GameRecord;
+use MyDramGames\Core\GameRecord\GameRecordCollection;
+use MyDramGames\Core\GameRecord\GameRecordCollectionPowered;
 use MyDramGames\Core\GameRecord\GameRecordFactory;
 use MyDramGames\Utils\Php\Collection\CollectionEngine;
 use MyDramGames\Utils\Php\Collection\CollectionEnginePhpArray;
@@ -17,17 +20,20 @@ class GamePlayServicesProviderGenericTest extends TestCase
     protected CollectionEngine $collectionEngine;
     protected PlayerCollection $playerCollection;
     protected GameRecordFactory $gameRecordFactory;
+    protected GameRecordCollection $gameRecordCollection;
 
     public function setUp(): void
     {
         $this->collectionEngine = new CollectionEnginePhpArray();
         $this->playerCollection = new PlayerCollectionPowered();
         $this->gameRecordFactory = $this->createMock(GameRecordFactory::class);
+        $this->gameRecordCollection = new GameRecordCollectionPowered();
 
         $this->provider = new GamePlayServicesProviderGeneric(
             $this->collectionEngine,
             $this->playerCollection,
             $this->gameRecordFactory,
+            $this->gameRecordCollection,
         );
     }
 
@@ -49,5 +55,20 @@ class GamePlayServicesProviderGenericTest extends TestCase
 
         $this->assertEquals(1, $this->playerCollection->count());
         $this->assertTrue($playerCollection->isEmpty());
+    }
+
+    public function testGetGameRecordFactory(): void
+    {
+        $this->assertInstanceOf(GameRecordFactory::class, $this->provider->getGameRecordFactory());
+    }
+
+    public function testGetGameRecordCollection(): void
+    {
+        $record = $this->createMock(GameRecord::class);
+        $this->gameRecordCollection->add($record);
+        $gameRecordCollection = $this->provider->getGameRecordCollection();
+
+        $this->assertEquals(1, $this->gameRecordCollection->count());
+        $this->assertTrue($gameRecordCollection->isEmpty());
     }
 }

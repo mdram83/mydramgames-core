@@ -2,6 +2,7 @@
 
 namespace MyDramGames\Core\GamePlay\Services;
 
+use MyDramGames\Core\GameRecord\GameRecordCollection;
 use MyDramGames\Core\GameRecord\GameRecordFactory;
 use MyDramGames\Utils\Exceptions\CollectionException;
 use MyDramGames\Utils\Php\Collection\CollectionEngine;
@@ -13,6 +14,7 @@ readonly class GamePlayServicesProviderGeneric implements GamePlayServicesProvid
         protected CollectionEngine $collectionEngine,
         protected PlayerCollection $playerCollection,
         protected GameRecordFactory $gameRecordFactory,
+        protected GameRecordCollection $gameRecordCollection,
     )
     {
 
@@ -41,5 +43,13 @@ readonly class GamePlayServicesProviderGeneric implements GamePlayServicesProvid
     public function getGameRecordFactory(): GameRecordFactory
     {
         return $this->gameRecordFactory;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getGameRecordCollection(): GameRecordCollection
+    {
+        return $this->gameRecordCollection->clone()->reset();
     }
 }

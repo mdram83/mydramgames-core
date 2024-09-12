@@ -14,6 +14,7 @@ use MyDramGames\Core\GamePlay\Services\GamePlayServicesProvider;
 use MyDramGames\Core\GamePlay\Services\GamePlayServicesProviderGeneric;
 use MyDramGames\Core\GamePlay\Storage\GamePlayStorage;
 use MyDramGames\Core\GamePlay\Storage\GamePlayStorageInMemory;
+use MyDramGames\Core\GameRecord\GameRecordCollectionPowered;
 use MyDramGames\Core\GameRecord\GameRecordFactory;
 use MyDramGames\Core\GameSetup\GameSetup;
 use MyDramGames\Utils\Php\Collection\CollectionEnginePhpArray;
@@ -60,6 +61,7 @@ class GamePlayStorableBaseTest extends TestCase
             new CollectionEnginePhpArray(),
             new PlayerCollectionPowered(),
             $this->createMock(GameRecordFactory::class),
+            new GameRecordCollectionPowered(),
         );
 
         $this->play = TestingHelper::getGamePlayStorableBase($this->storage, $this->provider);

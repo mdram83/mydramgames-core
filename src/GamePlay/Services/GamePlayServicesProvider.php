@@ -2,10 +2,14 @@
 
 namespace MyDramGames\Core\GamePlay\Services;
 
+use MyDramGames\Core\GameRecord\GameRecordCollection;
 use MyDramGames\Core\GameRecord\GameRecordFactory;
 use MyDramGames\Utils\Php\Collection\CollectionEngine;
 use MyDramGames\Utils\Player\PlayerCollection;
 
+/**
+ *
+ */
 interface GamePlayServicesProvider
 {
     /**
@@ -25,4 +29,10 @@ interface GamePlayServicesProvider
      * @return GameRecordFactory
      */
     public function getGameRecordFactory(): GameRecordFactory;
+
+    /**
+     * Should provide Application specific empty copy of GameRecordCollection
+     * @return GameRecordCollection
+     */
+    public function getGameRecordCollection(): GameRecordCollection;
 }
