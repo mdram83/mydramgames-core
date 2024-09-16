@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use MyDramGames\Core\GameInvite\GameInvite;
 use MyDramGames\Core\GameMove\GameMove;
 use MyDramGames\Core\GameOption\GameOption;
 use MyDramGames\Core\GameOption\GameOptionBase;
@@ -19,12 +20,18 @@ use MyDramGames\Core\GameOption\Options\GameOptionNumberOfPlayersGeneric;
 use MyDramGames\Core\GameOption\Values\GameOptionValueAutostartGeneric;
 use MyDramGames\Core\GameOption\Values\GameOptionValueForfeitAfterGeneric;
 use MyDramGames\Core\GameOption\Values\GameOptionValueNumberOfPlayersGeneric;
+use MyDramGames\Core\GamePlay\GamePlay;
 use MyDramGames\Core\GamePlay\GamePlayStorableBase;
 use MyDramGames\Core\GamePlay\Services\GamePlayServicesProvider;
 use MyDramGames\Core\GamePlay\Storage\GamePlayStorage;
+use MyDramGames\Core\GameRecord\GameRecord;
+use MyDramGames\Core\GameRecord\GameRecordFactory;
 use MyDramGames\Core\GameSetup\GameSetup;
 use MyDramGames\Core\GameSetup\GameSetupBase;
 use MyDramGames\Utils\Player\Player;
+use PHPUnit\Framework\MockObject\Generator\Generator as MockGenerator;
+use PHPUnit\Framework\MockObject\Generator\MockClass;
+use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class TestingHelper
@@ -180,6 +187,48 @@ class TestingHelper
             protected function runConfigurationAfterHooks(): void
             {
 
+            }
+        };
+    }
+
+    public static function getGameRecordFactory(): GameRecordFactory
+    {
+        return new class() implements GameRecordFactory
+        {
+            public function create(GameInvite $invite, Player $player, bool $isWinner, array $score): GameRecord
+            {
+                return new readonly class($invite, $player, $isWinner, $score) implements GameRecord
+                {
+                    public function __construct(
+                        private GameInvite $invite,
+                        private Player $player,
+                        private bool $isWinner,
+                        private array $score,
+                    )
+                    {
+
+                    }
+
+                    public function getPlayer(): Player
+                    {
+                        return $this->player;
+                    }
+
+                    public function getGameInvite(): GameInvite
+                    {
+                        return $this->invite;
+                    }
+
+                    public function getScore(): array
+                    {
+                        return $this->score;
+                    }
+
+                    public function isWinner(): bool
+                    {
+                        return $this->isWinner;
+                    }
+                };
             }
         };
     }
