@@ -27,7 +27,7 @@ interface GameIndex
      * @param bool $isPremiumOverwrite
      * @return GameBox
      */
-    public function getGameBox(bool $isActiveOverwrite, bool $isPremiumOverwrite): GameBox;
+    public function getGameBox(?bool $isActiveOverwrite = null, ?bool $isPremiumOverwrite = null): GameBox;
 
     /**
      * @return GameSetup
