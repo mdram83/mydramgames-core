@@ -43,6 +43,8 @@ class GameIndexStorableBaseTest extends TestCase
             ),
         ) extends GameIndexStorableBase {
 
+            public const string SLUG = 'overwritten-slug';
+
             public function getGameSetup(): GameSetup
             {
                 return TestingHelper::getGameSetupBaseClass(
@@ -96,10 +98,15 @@ class GameIndexStorableBaseTest extends TestCase
     public function testGetSlug(): void
     {
         $this->assertIsString($this->index->getSlug());
+        $this->assertEquals('overwritten-slug', $this->index->getSlug());
     }
 
     public function testGetGameBox(): void
     {
         $this->assertInstanceOf(GameBox::class, $this->index->getGameBox());
+        $this->assertTrue($this->index->getGameBox(true, null)->isActive());
+        $this->assertTrue($this->index->getGameBox(null, true)->isPremium());
+        $this->assertFalse($this->index->getGameBox(false, null)->isActive());
+        $this->assertFalse($this->index->getGameBox(null, false)->isPremium());
     }
 }

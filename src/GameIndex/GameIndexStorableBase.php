@@ -54,7 +54,7 @@ abstract class GameIndexStorableBase implements GameIndex
      */
     final public function getSlug(): string
     {
-        return self::SLUG;
+        return $this::SLUG;
     }
 
     /**
@@ -66,14 +66,14 @@ abstract class GameIndexStorableBase implements GameIndex
     final public function getGameBox(?bool $isActiveOverwrite = null, ?bool $isPremiumOverwrite = null): GameBox
     {
         return new GameBoxGeneric(
-            self::SLUG,
-            self::NAME,
+            $this::SLUG,
+            $this::NAME,
             $this->getGameSetup(),
-            $isActiveOverwrite ?? self::IS_ACTIVE,
-            $isPremiumOverwrite ?? self::IS_PREMIUM,
-            self::DESCRIPTION,
-            self::DURATION_IN_MINUTES,
-            self::MIN_PLAYER_AGE
+            $isActiveOverwrite ?? $this::IS_ACTIVE,
+            $isPremiumOverwrite ?? $this::IS_PREMIUM,
+            $this::DESCRIPTION,
+            $this::DURATION_IN_MINUTES,
+            $this::MIN_PLAYER_AGE
         );
     }
 }
