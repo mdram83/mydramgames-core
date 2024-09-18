@@ -127,68 +127,70 @@ class TestingHelper
         GamePlayServicesProvider $gamePlayServicesProvider,
     ): GamePlayStorableBase
     {
-        return new class($storage, $gamePlayServicesProvider) extends GamePlayStorableBase
-        {
-            protected array $words;
-            protected const ?string GAME_MOVE_CLASS = MockObject::class;
-
-            public function handleMove(GameMove $move): void
-            {
-                $this->validateGamePlayer($move->getPlayer());
-                $this->validateNotFinished();
-                $this->validateMove($move);
-
-                $this->words[] = $move->getDetails()['word'];
-                $this->saveData();
-            }
-
-            public function handleForfeit(Player $player): void
-            {
-                $this->validateNotFinished();
-                $this->storage->setFinished();
-            }
-
-            public function getSituation(Player $player): array
-            {
-                $activePlayerName = $this->getActivePlayer()->getName();
-                return [
-                    'words' => $this->words,
-                    'activePlayer' => $activePlayerName,
-                    'yourId' => $this->getPlayerByName($player->getName())->getId(),
-                ];
-            }
-
-            protected function initialize(): void
-            {
-                $this->words = [];
-                $this->activePlayer = $this->getGameInvite()->getPlayers()->getOne(2);
-            }
-
-            protected function saveData(): void
-            {
-                $this->storage->setGameData([
-                    'words' => $this->words,
-                    'activePlayer' => $this->activePlayer,
-                ]);
-            }
-
-            protected function loadData(): void
-            {
-                $data = $this->storage->getGameData();
-                $this->words = $data['words'];
-                $this->activePlayer = $data['activePlayer'];
-            }
-
-            protected function configureGamePlayServices(): void
-            {
-
-            }
-
-            protected function runConfigurationAfterHooks(): void
-            {
-
-            }
-        };
+        return new GamePlayStorableTestingStub($storage, $gamePlayServicesProvider);
+//
+//        return new class($storage, $gamePlayServicesProvider) extends GamePlayStorableBase
+//        {
+//            protected array $words;
+//            protected const ?string GAME_MOVE_CLASS = MockObject::class;
+//
+//            public function handleMove(GameMove $move): void
+//            {
+//                $this->validateGamePlayer($move->getPlayer());
+//                $this->validateNotFinished();
+//                $this->validateMove($move);
+//
+//                $this->words[] = $move->getDetails()['word'];
+//                $this->saveData();
+//            }
+//
+//            public function handleForfeit(Player $player): void
+//            {
+//                $this->validateNotFinished();
+//                $this->storage->setFinished();
+//            }
+//
+//            public function getSituation(Player $player): array
+//            {
+//                $activePlayerName = $this->getActivePlayer()->getName();
+//                return [
+//                    'words' => $this->words,
+//                    'activePlayer' => $activePlayerName,
+//                    'yourId' => $this->getPlayerByName($player->getName())->getId(),
+//                ];
+//            }
+//
+//            protected function initialize(): void
+//            {
+//                $this->words = [];
+//                $this->activePlayer = $this->getGameInvite()->getPlayers()->getOne(2);
+//            }
+//
+//            protected function saveData(): void
+//            {
+//                $this->storage->setGameData([
+//                    'words' => $this->words,
+//                    'activePlayer' => $this->activePlayer,
+//                ]);
+//            }
+//
+//            protected function loadData(): void
+//            {
+//                $data = $this->storage->getGameData();
+//                $this->words = $data['words'];
+//                $this->activePlayer = $data['activePlayer'];
+//            }
+//
+//            protected function configureGamePlayServices(): void
+//            {
+//
+//            }
+//
+//            protected function runConfigurationAfterHooks(): void
+//            {
+//
+//            }
+//        };
     }
 
     public static function getGameRecordFactory(): GameRecordFactory

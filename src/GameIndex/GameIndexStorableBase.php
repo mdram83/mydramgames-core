@@ -27,6 +27,11 @@ abstract class GameIndexStorableBase implements GameIndex
     public const bool IS_PREMIUM = false;
 
     /**
+     * Enter information about specific for this game implementation of GamePlay interface.
+     */
+    protected const string GAMEPLAY_CLASSNAME = '';
+
+    /**
      * @throws CollectionException
      */
     final public function __construct(
@@ -75,5 +80,10 @@ abstract class GameIndexStorableBase implements GameIndex
             $this::DURATION_IN_MINUTES,
             $this::MIN_PLAYER_AGE
         );
+    }
+
+    final public function getGamePlayClassname(): string
+    {
+        return $this::GAMEPLAY_CLASSNAME;
     }
 }

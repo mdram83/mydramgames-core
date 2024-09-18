@@ -44,6 +44,7 @@ class GameIndexStorableBaseTest extends TestCase
         ) extends GameIndexStorableBase {
 
             public const string SLUG = 'overwritten-slug';
+            protected const string GAMEPLAY_CLASSNAME = 'gameplay-classname';
 
             public function getGameSetup(): GameSetup
             {
@@ -65,21 +66,6 @@ class GameIndexStorableBaseTest extends TestCase
                     allowMockingUnknownTypes: false,
                 );
                 assert($mock instanceof GameMove);
-                return $mock;
-            }
-
-            public function createGamePlay(GameInvite $gameInvite): GamePlay
-            {
-                $mock = (new MockGenerator())->testDouble(
-                    GamePlay::class,
-                    true,
-                    true,
-                    callOriginalConstructor: false,
-                    callOriginalClone: false,
-                    cloneArguments: false,
-                    allowMockingUnknownTypes: false,
-                );
-                assert($mock instanceof GamePlay);
                 return $mock;
             }
 
@@ -108,5 +94,10 @@ class GameIndexStorableBaseTest extends TestCase
         $this->assertTrue($this->index->getGameBox(null, true)->isPremium());
         $this->assertFalse($this->index->getGameBox(false, null)->isActive());
         $this->assertFalse($this->index->getGameBox(null, false)->isPremium());
+    }
+
+    public function testGetGamePlayClassname(): void
+    {
+        $this->assertEquals('gameplay-classname', $this->index->getGamePlayClassname());
     }
 }

@@ -43,9 +43,8 @@ interface GameIndex
     public function createGameMove(Player $player, array $inputs): GameMove;
 
     /**
-     * Abstract Factory method to create game specific gameplay instance
-     * @param GameInvite $gameInvite
-     * @return GamePlay
+     * Should provide fully qualified name of specific GamePlay class
+     * @return string
      */
-    public function createGamePlay(GameInvite $gameInvite): GamePlay;
+    public function getGamePlayClassname(): string;
 }
