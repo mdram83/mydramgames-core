@@ -1,33 +1,34 @@
 <?php
 
-namespace Tests\GamePlay;
+namespace Tests\GameFactory;
 
+use MyDramGames\Core\GameFactory\GameFactoryStorable;
 use MyDramGames\Core\GameInvite\GameInvite;
 use MyDramGames\Core\GameOption\GameOptionCollectionPowered;
 use MyDramGames\Core\GameOption\GameOptionValueCollectionPowered;
 use MyDramGames\Core\GamePlay\GamePlay;
-use MyDramGames\Core\GamePlay\GamePlayStorableFactory;
 use MyDramGames\Core\GamePlay\Services\GamePlayServicesProvider;
 use MyDramGames\Core\GamePlay\Services\GamePlayServicesProviderGeneric;
-use MyDramGames\Core\GamePlay\Storage\GamePlayStorage;
 use MyDramGames\Core\GamePlay\Storage\GamePlayStorageFactoryInMemory;
-use MyDramGames\Core\GamePlay\Storage\GamePlayStorageInMemory;
 use MyDramGames\Core\GameRecord\GameRecordCollectionPowered;
 use MyDramGames\Core\GameRecord\GameRecordFactory;
 use MyDramGames\Core\GameSetup\GameSetup;
 use MyDramGames\Utils\Php\Collection\CollectionEnginePhpArray;
 use MyDramGames\Utils\Player\Player;
-use MyDramGames\Utils\Player\PlayerCollection;
 use MyDramGames\Utils\Player\PlayerCollectionPowered;
 use PHPUnit\Framework\TestCase;
 use Tests\GamePlayStorableTestingStub;
+use Tests\GameSetupBaseTestingStub;
 use Tests\TestingHelper;
 
-class GamePlayStorableFactoryTest extends TestCase
+class GameFactoryStorableTest extends TestCase
 {
     protected GameInvite $invite;
     protected GamePlayServicesProvider $provider;
     protected string $gamePlayClassname;
+    protected string $gameSetupClassname;
+
+    protected GameFactoryStorable $gameFactoryStorable;
 
     public function setUp(): void
     {
@@ -54,6 +55,14 @@ class GamePlayStorableFactoryTest extends TestCase
         );
 
         $this->gamePlayClassname = GamePlayStorableTestingStub::class;
+        $this->gameSetupClassname = GameSetupBaseTestingStub::class;
+
+        $this->gameFactoryStorable = new GameFactoryStorable(
+            new GameOptionCollectionPowered(),
+            new GameOptionValueCollectionPowered(),
+            new GamePlayStorageFactoryInMemory(),
+            $this->provider,
+        );
     }
 
     protected function getPlayerMock(int|string $id, string $name): Player
@@ -65,13 +74,17 @@ class GamePlayStorableFactoryTest extends TestCase
         return $player;
     }
 
-    public function testCreate(): void
+    public function testCreateGameSetup(): void
     {
-        $factory = new GamePlayStorableFactory(
-            new GamePlayStorageFactoryInMemory(),
-            $this->provider,
+        $this->assertInstanceOf(GameSetup::class,
+            $this->gameFactoryStorable->createGameSetup($this->gameSetupClassname   )
         );
+    }
 
-        $this->assertInstanceOf(GamePlay::class, $factory->create($this->gamePlayClassname, $this->invite));
+    public function testCreateGamePlay(): void
+    {
+        $this->assertInstanceOf(
+            GamePlay::class,
+            $this->gameFactoryStorable->createGamePlay($this->gamePlayClassname, $this->invite));
     }
 }

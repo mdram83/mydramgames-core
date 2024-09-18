@@ -30,17 +30,18 @@ interface GameIndex
     public function getGameBox(?bool $isActiveOverwrite = null, ?bool $isPremiumOverwrite = null): GameBox;
 
     /**
-     * @return GameSetup
-     */
-    public function getGameSetup(): GameSetup;
-
-    /**
      * Abstract Factory method to create game specific move instance
      * @param Player $player
      * @param array $inputs
      * @return GameMove
      */
     public function createGameMove(Player $player, array $inputs): GameMove;
+
+    /**
+     * Should provide fully qualified name of specific GameSetup class
+     * @return string
+     */
+    public function getGameSetupClassname(): string;
 
     /**
      * Should provide fully qualified name of specific GamePlay class

@@ -4,11 +4,6 @@ namespace MyDramGames\Core\GameIndex;
 
 use MyDramGames\Core\GameBox\GameBox;
 use MyDramGames\Core\GameBox\GameBoxGeneric;
-use MyDramGames\Core\GameOption\GameOptionCollection;
-use MyDramGames\Core\GameOption\GameOptionValueCollection;
-use MyDramGames\Core\GamePlay\Services\GamePlayServicesProvider;
-use MyDramGames\Core\GamePlay\Storage\GamePlayStorageFactory;
-use MyDramGames\Utils\Exceptions\CollectionException;
 
 /**
  * You can extend this GameIndex abstract class to take advantage of repeatable elements, mainly for Storable game plays
@@ -27,23 +22,14 @@ abstract class GameIndexStorableBase implements GameIndex
     public const bool IS_PREMIUM = false;
 
     /**
-     * Enter information about specific for this game implementation of GamePlay interface.
+     * Enter information about specific for this game implementation of GamePlay and GameSetup interfaces.
      */
     protected const string GAMEPLAY_CLASSNAME = '';
+    protected const string GAMESETUP_CLASSNAME = '';
 
-    /**
-     * @throws CollectionException
-     */
     final public function __construct(
-        protected GameOptionCollection $optionsHandler,
-        protected GameOptionValueCollection $valuesHandler,
-        protected GamePlayStorageFactory $gamePlayStorageFactory,
-        protected GamePlayServicesProvider $gamePlayServicesProvider,
     )
     {
-        $this->optionsHandler->reset();
-        $this->valuesHandler->reset();
-
         $this->configureGameIndex();
     }
 
@@ -80,6 +66,11 @@ abstract class GameIndexStorableBase implements GameIndex
             $this::DURATION_IN_MINUTES,
             $this::MIN_PLAYER_AGE
         );
+    }
+
+    final public function getGameSetupClassname(): string
+    {
+        return $this::GAMESETUP_CLASSNAME;
     }
 
     final public function getGamePlayClassname(): string
