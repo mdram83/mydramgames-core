@@ -4,6 +4,8 @@ namespace MyDramGames\Core\GameBox;
 
 use MyDramGames\Core\Exceptions\GameBoxException;
 use MyDramGames\Core\Exceptions\GameSetupException;
+use MyDramGames\Core\GameMove\GameMoveFactory;
+use MyDramGames\Core\GamePlay\GamePlay;
 use MyDramGames\Core\GameSetup\GameSetup;
 
 class GameBoxGeneric implements GameBox
@@ -12,6 +14,8 @@ class GameBoxGeneric implements GameBox
         protected string $slug,
         protected string $name,
         protected GameSetup $gameSetup,
+        protected string $gamePlayClassname,
+        protected string $gameMoveFactoryClassname,
         protected bool $isActive,
         protected bool $isPremium,
         protected ?string $description,
@@ -103,6 +107,24 @@ class GameBoxGeneric implements GameBox
     /**
      * @inheritDoc
      */
+    public function getGamePlayClassname(): string
+    {
+        $this->validateClassnameImplementsInterface($this->gamePlayClassname, GamePlay::class);
+        return $this->gamePlayClassname;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getGameMoveFactoryClassname(): string
+    {
+        $this->validateClassnameImplementsInterface($this->gameMoveFactoryClassname, GameMoveFactory::class);
+        return $this->gameMoveFactoryClassname;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function isActive(): bool
     {
         return $this->isActive;
@@ -151,6 +173,16 @@ class GameBoxGeneric implements GameBox
     protected function validateNotEmpty(string $value): void
     {
         if ($value === '') {
+            throw new GameBoxException(GameBoxException::MESSAGE_INCORRECT_CONFIGURATION);
+        }
+    }
+
+    /**
+     * @throws GameBoxException
+     */
+    protected function validateClassnameImplementsInterface(string $class, string $interface): void
+    {
+        if (!class_exists($class) || !in_array($interface, class_implements($class))) {
             throw new GameBoxException(GameBoxException::MESSAGE_INCORRECT_CONFIGURATION);
         }
     }

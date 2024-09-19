@@ -6,6 +6,7 @@ use MyDramGames\Core\Exceptions\GameBoxException;
 use MyDramGames\Core\Exceptions\GameSetupException;
 use MyDramGames\Core\GameBox\GameBox;
 use MyDramGames\Core\GameBox\GameBoxGeneric;
+use MyDramGames\Core\GameMove\GameMoveFactory;
 use MyDramGames\Core\GameOption\GameOptionCollectionPowered;
 use MyDramGames\Core\GameOption\GameOptionTypeGeneric;
 use MyDramGames\Core\GameOption\GameOptionValueCollectionPowered;
@@ -13,6 +14,8 @@ use MyDramGames\Core\GameOption\Options\GameOptionNumberOfPlayers;
 use MyDramGames\Core\GameOption\Values\GameOptionValueNumberOfPlayersGeneric;
 use MyDramGames\Core\GameSetup\GameSetup;
 use PHPUnit\Framework\TestCase;
+use Tests\GameMoveFactoryTestingStub;
+use Tests\GamePlayStorableTestingStub;
 use Tests\TestingHelper;
 
 class GameBoxGenericTest extends TestCase
@@ -21,6 +24,8 @@ class GameBoxGenericTest extends TestCase
     protected string $slug;
     protected string $name;
     protected GameSetup $gameSetup;
+    protected string $gamePlayClassname;
+    protected string $gameMoveFactoryClassname;
     protected bool $isActive;
     protected bool $isPremium;
     protected ?string $description;
@@ -38,16 +43,23 @@ class GameBoxGenericTest extends TestCase
         $this->minPlayerAge = 10;
 
         $this->gameSetup = $this->getGameSetup();
+        $this->gamePlayClassname = GamePlayStorableTestingStub::class;
+        $this->gameMoveFactoryClassname = GameMoveFactoryTestingStub::class;
 
         $this->box = $this->getGameBox();
     }
 
-    protected function getGameBox(): GameBoxGeneric
+    protected function getGameBox(
+        ?string $gamePlayClassnameOverwrite = null,
+        ?string $gameMoveFactoryClassnameOverwrite = null,
+    ): GameBoxGeneric
     {
         return new GameBoxGeneric(
             $this->slug,
             $this->name,
             $this->gameSetup,
+            $gamePlayClassnameOverwrite ?? $this->gamePlayClassname,
+            $gameMoveFactoryClassnameOverwrite ?? $this->gameMoveFactoryClassname,
             $this->isActive,
             $this->isPremium,
             $this->description,
@@ -177,6 +189,52 @@ class GameBoxGenericTest extends TestCase
     public function testGetGameSetup(): void
     {
         $this->assertSame($this->gameSetup, $this->box->getGameSetup());
+    }
+
+    public function testGetGamePlayClassnameThrowExceptionWhenNotFollowingInterface(): void
+    {
+        $this->expectException(GameBoxException::class);
+        $this->expectExceptionMessage(GameBoxException::MESSAGE_INCORRECT_CONFIGURATION);
+
+        $this->box = $this->getGameBox(GameBox::class);
+        $this->box->getGamePlayClassname();
+    }
+
+    public function testGetGamePlayClassnameThrowExceptionWhenEmpty(): void
+    {
+        $this->expectException(GameBoxException::class);
+        $this->expectExceptionMessage(GameBoxException::MESSAGE_INCORRECT_CONFIGURATION);
+
+        $this->box = $this->getGameBox('');
+        $this->box->getGamePlayClassname();
+    }
+
+    public function testGetGamePlayClassname(): void
+    {
+        $this->assertEquals($this->gamePlayClassname, $this->box->getGamePlayClassname());
+    }
+
+    public function testGetGameMoveFactoryClassnameThrowExceptionWhenNotFollowingInterface(): void
+    {
+        $this->expectException(GameBoxException::class);
+        $this->expectExceptionMessage(GameBoxException::MESSAGE_INCORRECT_CONFIGURATION);
+
+        $this->box = $this->getGameBox(null, GameBox::class);
+        $this->box->getGameMoveFactoryClassname();
+    }
+
+    public function testGetGameMoveFactoryClassnameThrowExceptionWhenEmpty(): void
+    {
+        $this->expectException(GameBoxException::class);
+        $this->expectExceptionMessage(GameBoxException::MESSAGE_INCORRECT_CONFIGURATION);
+
+        $this->box = $this->getGameBox(null, '');
+        $this->box->getGameMoveFactoryClassname();
+    }
+
+    public function testGetGameMoveFactoryClassname(): void
+    {
+        $this->assertEquals($this->gameMoveFactoryClassname, $this->box->getGameMoveFactoryClassname());
     }
 
     public function testToArray(): void

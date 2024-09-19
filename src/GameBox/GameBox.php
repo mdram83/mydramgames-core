@@ -54,6 +54,20 @@ interface GameBox
     public function getGameSetup(): GameSetup;
 
     /**
+     * Points to specific GamePlay interface implementation
+     * @return string
+     * @throws GameBoxException in case provided classname is not implementing GamePlay interface
+     */
+    public function getGamePlayClassname(): string;
+
+    /**
+     * Points to specific GameMoveFactory interface implementation
+     * @return string
+     * @throws GameBoxException in case provided classname is not implementing GameMove interface
+     */
+    public function getGameMoveFactoryClassname(): string;
+
+    /**
      * Informs if gameplay can be initiated
      * @return bool
      */
