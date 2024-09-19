@@ -7,11 +7,11 @@ use MyDramGames\Utils\Player\Player;
 interface GameMoveFactory
 {
     /**
-     * Optional implementations per game should implement method to create game specific GameMove instance.
-     * May be required for specific and more than minimal validations and be utilized in GameIndex implementations.
+     * Per game implementations should implement method to create game specific GameMove instance.
+     * This can be done by either method in GameMove[SpecificGame] class or as dedicated factory class.
      * @param Player $player
      * @param array $inputs
      * @return GameMove
      */
-    public function create(Player $player, array $inputs): GameMove;
+    public static function create(Player $player, array $inputs): GameMove;
 }
