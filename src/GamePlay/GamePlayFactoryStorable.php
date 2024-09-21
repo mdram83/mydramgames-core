@@ -2,13 +2,10 @@
 
 namespace MyDramGames\Core\GamePlay;
 
+use MyDramGames\Core\Exceptions\GameBoxException;
 use MyDramGames\Core\GameInvite\GameInvite;
-use MyDramGames\Core\GameOption\GameOptionCollection;
-use MyDramGames\Core\GameOption\GameOptionValueCollection;
 use MyDramGames\Core\GamePlay\Services\GamePlayServicesProvider;
 use MyDramGames\Core\GamePlay\Storage\GamePlayStorageFactory;
-use MyDramGames\Core\GameSetup\GameSetup;
-use MyDramGames\Utils\Exceptions\CollectionException;
 
 class GamePlayFactoryStorable implements GamePlayFactory
 {
@@ -22,10 +19,13 @@ class GamePlayFactoryStorable implements GamePlayFactory
 
     /**
      * @inheritDoc
+     * @throws GameBoxException
      */
-    public function create(string $gamePlayClassname, GameInvite $gameInvite): GamePlay
+    public function create(GameInvite $gameInvite): GamePlay
     {
         $storage = $this->gamePlayStorageFactory->create($gameInvite);
+        $gamePlayClassname = $gameInvite->getGameBox()->getGamePlayClassname();
+
         return new $gamePlayClassname($storage, $this->gamePlayServicesProvider);
     }
 }

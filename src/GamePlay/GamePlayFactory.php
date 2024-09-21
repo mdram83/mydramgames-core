@@ -7,10 +7,9 @@ use MyDramGames\Core\GameInvite\GameInvite;
 interface GamePlayFactory
 {
     /**
-     * Should create a specific (provided by $gamePlayClassname) instance of GamePlay
-     * @param string $gamePlayClassname
+     * Should create a specific instance of GamePlay
      * @param GameInvite $gameInvite
      * @return GamePlay
      */
-    public function create(string $gamePlayClassname, GameInvite $gameInvite): GamePlay;
+    public function create(GameInvite $gameInvite): GamePlay;
 }

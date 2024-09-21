@@ -2,6 +2,7 @@
 
 namespace Tests\GamePlay;
 
+use MyDramGames\Core\GameBox\GameBox;
 use MyDramGames\Core\GameInvite\GameInvite;
 use MyDramGames\Core\GameOption\GameOptionCollectionPowered;
 use MyDramGames\Core\GameOption\GameOptionValueCollectionPowered;
@@ -30,6 +31,8 @@ class GamePlayFactoryStorableTest extends TestCase
 
     public function setUp(): void
     {
+        $this->gamePlayClassname = GamePlayStorableTestingStub::class;
+
         $players = new PlayerCollectionPowered(null, [
             $this->getPlayerMock(1, 'Player 1'),
             $this->getPlayerMock(2, 'Player 2'),
@@ -41,9 +44,13 @@ class GamePlayFactoryStorableTest extends TestCase
         );
         $setup->configureOptions(TestingHelper::getGameOptionConfigurations());
 
+        $gameBox = $this->createMock(GameBox::class);
+        $gameBox->method('getGamePlayClassname')->willReturn($this->gamePlayClassname);
+
         $this->invite = $this->createMock(GameInvite::class);
         $this->invite->method('getPlayers')->willReturn($players);
         $this->invite->method('getGameSetup')->willReturn($setup);
+        $this->invite->method('getGameBox')->willReturn($gameBox);
 
         $this->provider = new GamePlayServicesProviderGeneric(
             new CollectionEnginePhpArray(),
@@ -51,8 +58,6 @@ class GamePlayFactoryStorableTest extends TestCase
             $this->createMock(GameRecordFactory::class),
             new GameRecordCollectionPowered(),
         );
-
-        $this->gamePlayClassname = GamePlayStorableTestingStub::class;
 
         $this->gameFactoryStorable = new GamePlayFactoryStorable(
             new GamePlayStorageFactoryInMemory(),
@@ -71,8 +76,6 @@ class GamePlayFactoryStorableTest extends TestCase
 
     public function testCreate(): void
     {
-        $this->assertInstanceOf(
-            GamePlay::class,
-            $this->gameFactoryStorable->create($this->gamePlayClassname, $this->invite));
+        $this->assertInstanceOf(GamePlay::class, $this->gameFactoryStorable->create($this->invite));
     }
 }
